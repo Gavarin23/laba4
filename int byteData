@@ -1,0 +1,38 @@
+import java.io.*;
+
+public class FileCopy {
+    public static void main(String[] args) {
+        FileInputStream inputStream = null;
+        FileOutputStream outputStream = null;
+
+        try {
+            // Открытие файлов для чтения и записи
+            inputStream = new FileInputStream("input.txt");
+            outputStream = new FileOutputStream("output.txt");
+
+            int byteData;
+            // Чтение и копирование данных побайтово
+            while ((byteData = inputStream.read()) != -1) {
+                outputStream.write(byteData);
+            }
+
+            System.out.println("Файл успешно скопирован.");
+        } catch (FileNotFoundException e) {
+            System.out.println("Ошибка: Файл не найден.");
+        } catch (IOException e) {
+            System.out.println("Ошибка ввода-вывода.");
+        } finally {
+            try {
+                // Закрытие файлов
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            } catch (IOException e) {
+                System.out.println("Ошибка при закрытии файла.");
+            }
+        }
+    }
+}
