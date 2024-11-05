@@ -1,0 +1,42 @@
+public class CustomAgeException extends Exception {
+    public CustomAgeException(String message) {
+        super(message);
+    }
+}
+
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+public class AgeCheck {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите возраст: ");
+
+        try {
+            int age = scanner.nextInt();
+            checkAge(age);
+        } catch (CustomAgeException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+            logException(e);
+        }
+    }
+
+    public static void checkAge(int age) throws CustomAgeException {
+        if (age < 0 || age > 120) {
+            throw new CustomAgeException("Недопустимый возраст: " + age + ". Возраст должен быть в диапазоне от 0 до 120.");
+        } else {
+            System.out.println("Возраст принят.");
+        }
+    }
+
+    public static void logException(Exception e) {
+        try (FileWriter writer = new FileWriter("exceptions.log", true)) {
+            writer.write(e.getMessage() + "\n");
+        } catch (IOException ioException) {
+            System.out.println("Ошибка записи в лог-файл.");
+        }
+    }
+}
+
